@@ -1,11 +1,12 @@
 import { Router } from "express";
 import { PrismaClient } from "@prisma/client";
 import jwt from 'jsonwebtoken'
+import { sendEmailToken } from '../services/emailService';
 
 const EMAIL_TOKEN_EXPIRATION_MINUTES = 10;
 // If you wish to have them authenticated longer, you can change the below code to be days instead of hours
 const AUTHENTICATION_EXPIRATION_HOURS = 12;
-const JWT_SECRET = "SUPER SECRET"
+const JWT_SECRET = process.env.JWT_SECRET || 'SUPER SECRET'
 
 const router = Router();
 const prisma = new PrismaClient();
@@ -48,6 +49,7 @@ router.post('/login', async (req, res) => {
         })
         console.log(createdToken);
         // send emailToken to user's email
+        await sendEmailToken(email, emailToken);
         res.sendStatus(200)
     } catch (e) {
         console.log(e);
