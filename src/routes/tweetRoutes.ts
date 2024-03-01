@@ -21,7 +21,8 @@ router.post('/', async (req, res) => {
     // @ts-ignore
     const user = req.user;
     
-    res.sendStatus(200);
+    console.log(req)
+    // res.sendStatus(200);
 
     try {
         const result = await prisma.tweet.create({
@@ -29,7 +30,8 @@ router.post('/', async (req, res) => {
                 content,
                 image,
                 userId: user.id // TODO manage based on the auth user
-            }
+            },
+            include: { user: true }
         });
 
         res.json(result);
