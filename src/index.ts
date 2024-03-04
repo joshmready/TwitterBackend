@@ -11,7 +11,7 @@ app.use('/tweet', authenticateToken, tweetRoutes);
 app.use('/auth', authRoutes)
 
 app.get('/', (req, res) => {
-    res.send('Hello world');
+    res.send('Powered by BlackFlag Technology');
 });
 
 app.listen(3000, () => {
